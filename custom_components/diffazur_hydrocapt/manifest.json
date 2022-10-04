@@ -1,0 +1,15 @@
+{
+  "domain": "diffazur_hydrocapt",
+  "name": "Diffazur Hydrocapt",
+  "documentation": "https://github.com/tmenguy/hacs-diffazur-hydrocapt",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/tmenguy/hacs-diffazur-hydrocapt/issues",
+  "version": "1.0.0",
+  "config_flow": true,
+  "codeowners": [
+    "@tmenguy"
+  ],
+  "requirements": [
+    "py-hydrocapt @ git+https://github.com/tmenguy/py-hydrocapt@main"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "_output_dir": "/Users/tmenguy/Developer/Diffazur",
+  "_template": "gh:oncleben31/cookiecutter-homeassistant-custom-component",
+  "class_name_prefix": "DiffazurHydrocapt",
+  "domain_name": "diffazur_hydrocapt",
+  "friendly_name": "Diffazur Hydrocapt",
+  "github_user": "tmenguy",
+  "project_name": "hacs-diffazur-hydrocapt",
+  "test_suite": "yes",
+  "version": "0.0.0"
+}
