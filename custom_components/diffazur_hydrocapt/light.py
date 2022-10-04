@@ -55,6 +55,11 @@ class DiffazurHydrocaptLightEntity(DiffazurHydrocaptEntity, LightEntity):
     """diffazur_hydrocapt select class."""
 
     @property
+    def unique_id(self):
+        """Return a unique ID to use for this entity."""
+        return f"HYDROCAPT-LightEntity-{self.entity_description.key}"
+
+    @property
     def is_on(self) -> bool | None:
         """Return True if entity is on."""
         cur_op = self.coordinator.data[self.entity_description.key]
