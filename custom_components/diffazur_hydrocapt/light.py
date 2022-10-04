@@ -39,7 +39,7 @@ async def async_setup_entry(hass, entry, async_add_devices):
 
             m = DiffazurHydrocaptLightEntityDescription(
                 key=k_ext,
-                name=f"pool_light_{k_ext}",
+                name=f"pool_{k_ext}",
                 on_options=["ON"],
                 off_options=["OFF", "TIMER"],
             )
