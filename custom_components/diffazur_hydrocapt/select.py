@@ -24,6 +24,10 @@ async def async_setup_entry(hass, entry, async_add_devices):
     ext_cmds = coordinator.get_commands_and_options()
     for k_ext, cmd_vals in ext_cmds.items():
 
+        #do not expose hesting command here as we do have now a climate entity for that
+        if k_ext == coordinator.get_heating_regulation_command():
+            continue
+
         if len(cmd_vals) > 2:
             m = DiffazurHydrocapSelectEntityDescription(
                 key=k_ext, name=f"{PREFIX} {k_ext} Mode", icon="mdi:pool", options=cmd_vals

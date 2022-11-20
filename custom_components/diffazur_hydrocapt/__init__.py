@@ -119,6 +119,16 @@ class DiffazurHydrocaptDataUpdateCoordinator(DataUpdateCoordinator):
     def get_timers(self):
         return self.api.get_timers()
 
+
+    def get_heating_regulation_command(self):
+        return self.api.get_heating_regulation_command()
+
+    def get_heating_regulation_temperature_consign(self):
+        return self.api.get_heating_regulation_temperature_consign()
+
+    def get_heating_regulation_water_temperature(self):
+        return self.api.get_heating_regulation_water_temperature()
+
     async def _async_update_data(self):
         """Fetch data from API endpoint."""
         try:

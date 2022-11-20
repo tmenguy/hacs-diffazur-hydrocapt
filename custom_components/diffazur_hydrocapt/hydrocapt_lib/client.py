@@ -42,6 +42,7 @@ from .const import HYDROCAPT_GET_ALARMS_URL
 from .const import HYDROCAPT_GET_POOL_CONSIGN_URL
 from .const import HYDROCAPT_SAVE_POOL_CONSIGN_URL
 
+from .const import HYDROCAPT_HEATING_REGULATION_COMMAND, HYDROCAPT_HEATING_REGULATION_WATER_TEMPERATURE, HYDROCAPT_HEATING_REGULATION_TEMPARATURE_CONSIGN
 from .const import HYDROCAPT_EXTERNAL_TO_INTERNAL_CONSIGNS, HYDROCAPT_INTERNAL_TO_EXTERNAL_CONSIGNS, HYDROCAPT_TIMER, HYDROCAPT_TIMERS
 class HydrocaptClient(object):
     """Proxy to the Hydrocapt REST API."""
@@ -396,7 +397,14 @@ class HydrocaptClient(object):
     def get_commands_and_options(self):
         return HYDROCAPT_EXTERNAL_COMMANDS
 
+    def get_heating_regulation_command(self):
+        return HYDROCAPT_HEATING_REGULATION_COMMAND
 
+    def get_heating_regulation_temperature_consign(self):
+        return HYDROCAPT_HEATING_REGULATION_TEMPARATURE_CONSIGN
+
+    def get_heating_regulation_water_temperature(self):
+        return HYDROCAPT_HEATING_REGULATION_WATER_TEMPERATURE
     def get_timers(self):
         return HYDROCAPT_TIMERS
     def _get_hydrocapt_internal_consigns_from_external(self, external_consigns):

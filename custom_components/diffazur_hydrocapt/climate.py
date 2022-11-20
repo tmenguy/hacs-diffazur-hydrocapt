@@ -17,9 +17,9 @@ from homeassistant.components.climate.const import (
 class DiffazurHydrocaptClimateEntityDescription(ClimateEntityDescription):
     """A class that describes climate entities."""
 
-    heating_command: str = "Heating Regulation"
-    water_temperature: str = "water_temperature"
-    heating_setpoint: str = "setpoint_heating"
+    heating_command: str = None
+    water_temperature: str = None
+    heating_setpoint: str = None
 
 
 async def async_setup_entry(hass, entry, async_add_devices):
@@ -29,7 +29,13 @@ async def async_setup_entry(hass, entry, async_add_devices):
     selects = []
 
     m = DiffazurHydrocaptClimateEntityDescription(
-        key="pool heater", name=f"{PREFIX} Heater"
+        key="pool heater",
+        name=f"{PREFIX} Heater",
+        heating_command = coordinator.get_heating_regulation_command(),
+        water_temperature = coordinator.get_heating_regulation_water_temperature(),
+        heating_setpoint = coordinator.get_heating_regulation_temperature_consign()
+
+
     )
 
     s = DiffazurHydrocaptClimateEntity(coordinator, m)

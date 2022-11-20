@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 """Consts for Hydrocapt python client API."""
 
+HYDROCAPT_HEATING_REGULATION_COMMAND = "Heating Regulation"
+HYDROCAPT_HEATING_REGULATION_WATER_TEMPERATURE = "water_temperature"
+HYDROCAPT_HEATING_REGULATION_TEMPARATURE_CONSIGN = "setpoint_heating"
 
 #by construction : first command is OFF
 HYDROCAPT_EXTERNAL_TO_INTERNAL_COMMANDS = {
 "Filtration" : ("filtration", {"Filtration OFF": 2, "Filtration ON":1, "Filtration TIMER":3, "Filtration AUTO":0, "Filtration CHOC":4}, "Filtration AUTO"),
 "Light": ("lighting", {"Pool Light OFF": 2, "Pool Light TIMER": 1, "Pool Light ON":0}, "Pool Light OFF"),
-"Heating Regulation" : ("heating_regulation", {"Pool Heat OFF": 1, "Pool Heat AUTO":0}, "Pool Heat OFF"),
+HYDROCAPT_HEATING_REGULATION_COMMAND : ("heating_regulation", {"Pool Heat OFF": 1, "Pool Heat AUTO":0}, "Pool Heat OFF"),
 "pH Regulation" : ("ph_regulation", {"pH Regulation OFF": 1, "pH Regulation AUTO":0}, "pH Regulation AUTO"),
 "Redox Regulation" : ("orp_regulation", {"redox Regulation OFF": 1, "redox Regulation AUTO":0}, "redox Regulation AUTO")
 }
@@ -28,7 +31,7 @@ HYDROCAPT_TIMER = "timer"
 
 
 HYDROCAPT_EXTERNAL_TO_INTERNAL_CONSIGNS = {
-  "setpoint_heating": ["setpoint_heating", "integer", "Heat"],
+  HYDROCAPT_HEATING_REGULATION_TEMPARATURE_CONSIGN: ["setpoint_heating", "integer", "Heat"],
   "Filtration Timer": ["timer_filtration", HYDROCAPT_TIMER, "Filtration"],
   "Lighting Timer": ["timer_lighting", HYDROCAPT_TIMER, "Pool Light"]
 }
