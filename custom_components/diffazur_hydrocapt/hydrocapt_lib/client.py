@@ -74,7 +74,7 @@ class HydrocaptClient(object):
         return self.pool_internal_id
 
     def get_pool_id(self):
-        return self._get_pool_internal_id(self)
+        return self._get_pool_internal_id()
 
     def is_connection_ok(self):
         pool_id = self._get_pool_internal_id()
