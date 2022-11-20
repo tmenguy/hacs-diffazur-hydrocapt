@@ -1,7 +1,7 @@
 """Constants for Diffazur Hydrocapt."""
 # Base component constants
 
-PREFIX = "POOL"
+PREFIX = "Pool"
 NAME = "Diffazur Hydrocap Pool"
 DOMAIN = "diffazur_hydrocapt"
 DOMAIN_DATA = f"{DOMAIN}_data"

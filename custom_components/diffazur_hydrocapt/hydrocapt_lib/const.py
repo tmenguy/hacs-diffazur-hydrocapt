@@ -32,8 +32,8 @@ HYDROCAPT_TIMER = "timer"
 
 HYDROCAPT_EXTERNAL_TO_INTERNAL_CONSIGNS = {
   HYDROCAPT_HEATING_REGULATION_TEMPARATURE_CONSIGN: ["setpoint_heating", "integer", "Heat"],
-  "Filtration Timer": ["timer_filtration", HYDROCAPT_TIMER, "Filtration"],
-  "Lighting Timer": ["timer_lighting", HYDROCAPT_TIMER, "Pool Light"]
+  "Filtration Timer": ["timer_filtration", HYDROCAPT_TIMER, "Ftn"],
+  "Lighting Timer": ["timer_lighting", HYDROCAPT_TIMER, "Lgt"]
 }
 
 HYDROCAPT_INTERNAL_TO_EXTERNAL_CONSIGNS = {}
