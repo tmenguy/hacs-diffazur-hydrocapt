@@ -10,7 +10,7 @@ from homeassistant.components.binary_sensor import (
 
 
 from .const import (
-    DOMAIN,
+    DOMAIN, PREFIX
 )
 from .entity import DiffazurHydrocaptEntity
 
@@ -20,17 +20,17 @@ from .entity import DiffazurHydrocaptEntity
 BINARY_SENSORS_TYPES: tuple[BinarySensorEntityDescription, ...] = (
     BinarySensorEntityDescription(
         key="ph_status",
-        name="PH Status",
+        name=f"{PREFIX} pH Status",
         device_class=BinarySensorDeviceClass.PROBLEM,
     ),
     BinarySensorEntityDescription(
         key="conductivity_status",
-        name="Conductivity Status",
+        name=f"{PREFIX} Conductivity Status",
         device_class=BinarySensorDeviceClass.PROBLEM,
     ),
     BinarySensorEntityDescription(
-        key="red_ox_status",
-        name="RedOx Status",
+        key="redox_status",
+        name=f"{PREFIX} Redox (ORP) Status",
         device_class=BinarySensorDeviceClass.PROBLEM,
     ),
 )

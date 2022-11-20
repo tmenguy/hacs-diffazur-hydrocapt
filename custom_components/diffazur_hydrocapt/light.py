@@ -3,19 +3,16 @@ from __future__ import annotations
 
 import logging
 
-
-from .const import DOMAIN
-from .entity import DiffazurHydrocaptEntity
-from dataclasses import dataclass
-
-
 # Import the device class from the component that you want to support
 from homeassistant.components.light import (
-    ATTR_BRIGHTNESS,
-    PLATFORM_SCHEMA,
     LightEntity,
     LightEntityDescription,
 )
+
+from .const import DOMAIN, PREFIX
+from .entity import DiffazurHydrocaptEntity
+from dataclasses import dataclass
+
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -35,13 +32,23 @@ async def async_setup_entry(hass, entry, async_add_devices):
     ext_cmds = coordinator.get_commands_and_options()
     lights = []
     for k_ext, cmds_val in ext_cmds.items():
-        if "light" in k_ext:
+        if "light" in k_ext.lower():
+
+            on_options = []
+            off_options = []
+
+            for cmd in cmds_val:
+
+                if "on" in cmd.lower():
+                    on_options.append(cmd)
+                else:
+                    off_options.append(cmd)
 
             m = DiffazurHydrocaptLightEntityDescription(
                 key=k_ext,
-                name=f"pool_{k_ext}",
-                on_options=["ON"],
-                off_options=["OFF", "TIMER"],
+                name=f"{PREFIX} {k_ext}",
+                on_options=on_options,
+                off_options=off_options,
             )
 
             s = DiffazurHydrocaptLightEntity(coordinator, m)
@@ -55,11 +62,6 @@ class DiffazurHydrocaptLightEntity(DiffazurHydrocaptEntity, LightEntity):
     """diffazur_hydrocapt select class."""
 
     @property
-    def unique_id(self):
-        """Return a unique ID to use for this entity."""
-        return f"HYDROCAPT-LightEntity-{self.entity_description.key}"
-
-    @property
     def is_on(self) -> bool | None:
         """Return True if entity is on."""
         cur_op = self.coordinator.data[self.entity_description.key]
@@ -70,7 +72,7 @@ class DiffazurHydrocaptLightEntity(DiffazurHydrocaptEntity, LightEntity):
 
         return ret
 
-    async def async_turn_on(self, **kwargs: Any) -> None:
+    async def async_turn_on(self, **kwargs) -> None:
         """Turn the entity on."""
         self._prev_off_state, data = await self.hass.async_add_executor_job(
             self.coordinator.set_and_fetch_command_state,
@@ -82,7 +84,7 @@ class DiffazurHydrocaptLightEntity(DiffazurHydrocaptEntity, LightEntity):
             data
         )  # should be enough as set_and_fetch_command_state send back data
 
-    async def async_turn_off(self, **kwargs: Any) -> None:
+    async def async_turn_off(self, **kwargs) -> None:
         """Turn the entity off."""
 
         if (
@@ -91,12 +93,12 @@ class DiffazurHydrocaptLightEntity(DiffazurHydrocaptEntity, LightEntity):
         ):
             self._prev_off_state = self.entity_description.off_options[0]
 
-        prev, data = await self.hass.async_add_executor_job(
-            self.coordinator.set_and_fetch_command_state,
+        data = await self.hass.async_add_executor_job(
+            self.coordinator.set_command_state,
             self.entity_description.key,
             self._prev_off_state,
         )
         # await self.coordinator.async_refresh()
-        self.coordinator.async_set_updated_data(
+        await self.coordinator.async_set_updated_data(
             data
         )  # should be enough as set_and_fetch_command_state send back data

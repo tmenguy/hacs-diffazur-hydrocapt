@@ -82,14 +82,35 @@ class DiffazurHydrocaptDataUpdateCoordinator(DataUpdateCoordinator):
         self.platforms = []
         super().__init__(hass, _LOGGER, name=DOMAIN, update_interval=SCAN_INTERVAL)
 
+    def set_command_state(self, command, state):
+        self.api.set_command_state(command, state)
+        data = self.api.get_packaged_data()
+        self.data = data
+        return data
+
+    def set_consign(self, consign, value):
+        self.api.set_consign(consign, value)
+        data = self.api.get_packaged_data()
+        self.data = data
+        return data
+
+    def set_consign_timer_hour(self, consign, hour_idx, value):
+        self.api.set_consign_timer_hour(consign, hour_idx, value)
+        data = self.api.get_packaged_data()
+        self.data = data
+        return data
+
     def set_and_fetch_command_state(self, command, state):
-        prev_state = self.api.set_command_state(command, state)
+        prev_state = self.api.set_command_state(command, state, get_prev=True)
         data = self.api.get_packaged_data()
         self.data = data
         return prev_state, data
 
     def get_commands_and_options(self):
         return self.api.get_commands_and_options()
+
+    def get_timers(self):
+        return self.api.get_timers()
 
     async def _async_update_data(self):
         """Fetch data from API endpoint."""

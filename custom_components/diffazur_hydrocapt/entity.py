@@ -7,6 +7,7 @@ from homeassistant.helpers.update_coordinator import (
     UpdateFailed,
 )
 
+from homeassistant.util import dt as dt_util, ensure_unique_string, slugify
 
 from .const import DOMAIN, NAME, VERSION, ATTRIBUTION, MANUFACTURER
 
@@ -19,11 +20,6 @@ class DiffazurHydrocaptEntity(CoordinatorEntity):
         super().__init__(coordinator)
         self.entity_description  = description
         self._prev_off_state = None
-
-    @property
-    def unique_id(self):
-        """Return a unique ID to use for this entity."""
-        return f"HYDROCAPT-{self.entity_description.key}"
 
     @property
     def device_info(self):

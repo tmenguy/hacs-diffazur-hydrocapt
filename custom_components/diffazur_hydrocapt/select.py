@@ -1,6 +1,6 @@
 """Select platform for Diffazur Hydrocapt."""
 
-from .const import DOMAIN
+from .const import DOMAIN, PREFIX
 from .entity import DiffazurHydrocaptEntity
 from dataclasses import dataclass
 
@@ -24,13 +24,14 @@ async def async_setup_entry(hass, entry, async_add_devices):
     ext_cmds = coordinator.get_commands_and_options()
     for k_ext, cmd_vals in ext_cmds.items():
 
-        m = DiffazurHydrocapSelectEntityDescription(
-            key=k_ext, name=k_ext, icon="mdi:pool", options=cmd_vals
-        )
+        if len(cmd_vals) > 2:
+            m = DiffazurHydrocapSelectEntityDescription(
+                key=k_ext, name=f"{PREFIX} {k_ext} Mode", icon="mdi:pool", options=cmd_vals
+            )
 
-        s = DiffazurHydrocaptSelectEntity(coordinator, m)
+            s = DiffazurHydrocaptSelectEntity(coordinator, m)
 
-        selects.append(s)
+            selects.append(s)
 
     async_add_devices(selects)
 
@@ -55,12 +56,12 @@ class DiffazurHydrocaptSelectEntity(DiffazurHydrocaptEntity, SelectEntity):
 
     async def async_select_option(self, option: str) -> None:
         """Change the selected option."""
-        prev, data = await self.hass.async_add_executor_job(
-            self.coordinator.set_and_fetch_command_state,
+        data = await self.hass.async_add_executor_job(
+            self.coordinator.set_command_state,
             self.entity_description.key,
             option,
         )
         # await self.coordinator.async_refresh()
-        self.coordinator.async_set_updated_data(
+        await self.coordinator.async_set_updated_data(
             data
         )  # should be enough as set_and_fetch_command_state send back data

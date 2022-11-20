@@ -1,7 +1,7 @@
 """Constants for Diffazur Hydrocapt."""
 # Base component constants
 
-
+PREFIX = "POOL"
 NAME = "Diffazur Hydrocapt"
 DOMAIN = "diffazur_hydrocapt"
 DOMAIN_DATA = f"{DOMAIN}_data"
@@ -23,8 +23,9 @@ SENSOR = "sensor"
 SWITCH = "switch"
 LIGHT = "light"
 SELECT = "select"
+CLIMATE = "climate"
 
-PLATFORMS = [BINARY_SENSOR, SENSOR, LIGHT, SELECT]
+PLATFORMS = [BINARY_SENSOR, SENSOR, LIGHT, SELECT, SWITCH, CLIMATE]
 
 
 
