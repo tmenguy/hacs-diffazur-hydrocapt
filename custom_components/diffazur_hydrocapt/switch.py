@@ -53,7 +53,7 @@ async def async_setup_entry(hass, entry, async_add_devices):
 
             m = DiffazurHydrocapSwitchHourTimerEntityDescription(
                 key=timer_name,
-                name=f"{PREFIX} {timer_pre} {idx_str}h",
+                name=f"{PREFIX} {idx_str}h {timer_pre}",
                 hour_idx=hour_idx,
             )
 
