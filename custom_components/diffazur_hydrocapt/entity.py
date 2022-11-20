@@ -37,22 +37,6 @@ class DiffazurHydrocaptEntity(CoordinatorEntity):
         return slugify(f"{self.entity_description.name} {type(self).__name__} {pool_id}")
 
 
-    @property
-    def unique_id(self) -> str:
-        """Return unique id for car entity."""
-        return slugify(f"{self._car.vin} {self.type}")
-
-    @property
-    def device_info(self) -> DeviceInfo:
-        """Return device info."""
-        return DeviceInfo(
-            identifiers={(DOMAIN, self._car.id)},
-            name=self.vehicle_name,
-            manufacturer="Tesla",
-            model=self._car.car_type,
-            sw_version=self._car.car_version,
-        )
-
     # @property
     # def extra_state_attributes(self):
     #     """Return the state attributes."""
