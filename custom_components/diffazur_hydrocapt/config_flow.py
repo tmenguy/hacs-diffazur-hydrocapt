@@ -6,7 +6,7 @@ import voluptuous as vol
 
 from homeassistant.const import CONF_EMAIL, CONF_PASSWORD
 
-from py_hydrocapt import HydrocaptClient
+from hydrocapt_lib import HydrocaptClient
 
 from .const import (
     DOMAIN,

@@ -9,5 +9,7 @@
   "codeowners": [
     "@tmenguy"
   ],
-  "requirements": []
+  "requirements": [
+    "py-hydrocapt @ git+https://github.com/tmenguy/py-hydrocapt@main"
+  ]
 }
