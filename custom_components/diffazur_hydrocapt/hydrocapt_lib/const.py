@@ -2,7 +2,7 @@
 """Consts for Hydrocapt python client API."""
 
 
-
+#by construction : first command is OFF
 HYDROCAPT_EXTERNAL_TO_INTERNAL_COMMANDS = {
 "Filtration" : ("filtration", {"Filtration OFF": 2, "Filtration ON":1, "Filtration TIMER":3, "Filtration AUTO":0, "Filtration CHOC":4}, "Filtration AUTO"),
 "Light": ("lighting", {"Pool Light OFF": 2, "Pool Light TIMER": 1, "Pool Light ON":0}, "Pool Light OFF"),
@@ -17,14 +17,10 @@ for k_ext, v_trad in HYDROCAPT_EXTERNAL_TO_INTERNAL_COMMANDS.items():
     int_cmd_to_ext = {v: k for k, v in v_trad[1].items()}
     HYDROCAPT_INTERNAL_TO_EXTERNAL_COMMANDS[v_trad[0]] = (k_ext, int_cmd_to_ext, v_trad[1][v_trad[2]])
 
-
+#FIRST COMMAND IS OFF
 HYDROCAPT_EXTERNAL_COMMANDS = {}
 for k_ext, v_trad in HYDROCAPT_EXTERNAL_TO_INTERNAL_COMMANDS.items():
-    default_v = v_trad[2]
-    cmds = [default_v]
-    for k in v_trad[1]:
-        if k != default_v:
-            cmds.append(k)
+    cmds = [k for k in v_trad[1]]
     HYDROCAPT_EXTERNAL_COMMANDS[k_ext] = cmds
 
 

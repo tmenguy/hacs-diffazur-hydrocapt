@@ -28,22 +28,13 @@ async def async_setup_entry(hass, entry, async_add_devices):
 
         if len(cmd_vals) == 2:
 
-            on_cmd = None
-            off_cmd = None
-
-            for c in cmd_vals:
-                if "off" in c.lower():
-                    off_cmd = c
-                else:
-                    on_cmd = c
-
-
+            #by construction first command is off
             m = DiffazurHydrocapSwitchEntityDescription(
                 key=k_ext,
                 name=f"{PREFIX} {k_ext} Switch",
                 icon="mdi:pool",
-                option_on=on_cmd,
-                option_off=off_cmd,
+                option_on=cmd_vals[1],
+                option_off=cmd_vals[0],
             )
 
             s = DiffazurHydrocaptSwitchEntity(coordinator, m)
