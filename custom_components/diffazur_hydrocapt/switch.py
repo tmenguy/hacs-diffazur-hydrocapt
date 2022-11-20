@@ -32,10 +32,11 @@ async def async_setup_entry(hass, entry, async_add_devices):
             off_cmd = None
 
             for c in cmd_vals:
-                if "on" in c.lower() or "auto" in c.lower():
-                    on_cmd = c
-                else:
+                if "off" in c.lower():
                     off_cmd = c
+                else:
+                    on_cmd = c
+
 
             m = DiffazurHydrocapSwitchEntityDescription(
                 key=k_ext,
