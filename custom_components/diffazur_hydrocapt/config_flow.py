@@ -6,7 +6,10 @@ import voluptuous as vol
 
 from homeassistant.const import CONF_EMAIL, CONF_PASSWORD
 
-from hydrocapt_lib import HydrocaptClient
+try:
+    from diffazur_hydrocapt.hydrocapt_lib.client import HydrocaptClient
+except:
+    from .hydrocapt_lib.client import HydrocaptClient
 
 from .const import (
     DOMAIN,

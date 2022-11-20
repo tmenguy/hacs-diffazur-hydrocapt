@@ -8,7 +8,10 @@ import asyncio
 from datetime import timedelta
 import logging
 
-from hydrocapt_lib import HydrocaptClient
+try:
+    from diffazur_hydrocapt.hydrocapt_lib.client import HydrocaptClient
+except:
+    from .hydrocapt_lib.client import HydrocaptClient
 
 
 from homeassistant.config_entries import ConfigEntry
