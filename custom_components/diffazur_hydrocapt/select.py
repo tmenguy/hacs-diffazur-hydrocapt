@@ -62,6 +62,6 @@ class DiffazurHydrocaptSelectEntity(DiffazurHydrocaptEntity, SelectEntity):
             option,
         )
         # await self.coordinator.async_refresh()
-        await self.coordinator.async_set_updated_data(
+        self.coordinator.async_set_updated_data(
             data
         )  # should be enough as set_and_fetch_command_state send back data

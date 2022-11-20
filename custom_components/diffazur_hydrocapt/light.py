@@ -45,7 +45,7 @@ async def async_setup_entry(hass, entry, async_add_devices):
 
             m = DiffazurHydrocaptLightEntityDescription(
                 key=k_ext,
-                name=f"{PREFIX} {k_ext}",
+                name=f"{PREFIX} {k_ext} Light",
                 on_options=on_options,
                 off_options=off_options,
             )
@@ -79,7 +79,7 @@ class DiffazurHydrocaptLightEntity(DiffazurHydrocaptEntity, LightEntity):
             self.entity_description.on_options[0],
         )
         # await self.coordinator.async_refresh()
-        await self.coordinator.async_set_updated_data(
+        self.coordinator.async_set_updated_data(
             data
         )  # should be enough as set_and_fetch_command_state send back data
 
@@ -98,6 +98,6 @@ class DiffazurHydrocaptLightEntity(DiffazurHydrocaptEntity, LightEntity):
             self._prev_off_state,
         )
         # await self.coordinator.async_refresh()
-        await self.coordinator.async_set_updated_data(
+        self.coordinator.async_set_updated_data(
             data
         )  # should be enough as set_and_fetch_command_state send back data
