@@ -24,7 +24,9 @@
           "binary_sensor": "Capteur binaire activé",
           "sensor": "Capteur activé",
           "select": "Selecteur activé",
-          "light" : "Lumière activée"
+          "light" : "Lumière activée",
+          "switch" : "Interrupeturs activés",
+          "climate" : "Chauffage activé"
         }
       }
     }

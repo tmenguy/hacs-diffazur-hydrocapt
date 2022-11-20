@@ -24,7 +24,9 @@
           "binary_sensor": "Binary sensor enabled",
           "sensor": "Sensor enabled",
           "select": "Select enabled",
-          "light" : "Light enabled"
+          "light" : "Light enabled",
+          "switch" : "switch enabled",
+          "climate" : "climate enabled"
         }
       }
     }
