@@ -101,7 +101,7 @@ class DiffazurHydrocaptSwitchEntity(DiffazurHydrocaptEntity, SwitchEntity):
     def is_on(self):
         """Return true if the switch is on."""
         cur_op = self.coordinator.data[self.entity_description.key]
-        ret = cur_op == self.entity_description.on_option
+        ret = cur_op == self.entity_description.option_on
         return ret
 
 
