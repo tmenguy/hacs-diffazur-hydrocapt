@@ -30,6 +30,11 @@ class DiffazurHydrocaptEntity(CoordinatorEntity):
             "manufacturer": MANUFACTURER,
         }
 
+    @property
+    def unique_id(self) -> str:
+        """Return unique id for car entity."""
+        return slugify(f"{self.entity_description.name} {type(self).__name__}")
+
     # @property
     # def extra_state_attributes(self):
     #     """Return the state attributes."""

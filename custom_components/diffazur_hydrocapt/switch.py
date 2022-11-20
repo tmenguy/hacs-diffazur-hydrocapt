@@ -2,7 +2,7 @@ from homeassistant.components.switch import SwitchEntity
 from homeassistant.components.switch import SwitchEntityDescription
 
 
-from .const import  DOMAIN, PREFIX
+from .const import DOMAIN, PREFIX
 from .entity import DiffazurHydrocaptEntity
 from dataclasses import dataclass
 
@@ -13,10 +13,10 @@ class DiffazurHydrocapSwitchEntityDescription(SwitchEntityDescription):
     option_off: str = None
 
 
-
 @dataclass
 class DiffazurHydrocapSwitchHourTimerEntityDescription(SwitchEntityDescription):
     hour_idx: str = 0
+
 
 async def async_setup_entry(hass, entry, async_add_devices):
     """Setup select platform."""
@@ -38,13 +38,16 @@ async def async_setup_entry(hass, entry, async_add_devices):
                     off_cmd = c
 
             m = DiffazurHydrocapSwitchEntityDescription(
-                key=k_ext, name=f"{PREFIX} {k_ext} Switch", icon="mdi:pool", option_on=on_cmd, option_off=off_cmd
+                key=k_ext,
+                name=f"{PREFIX} {k_ext} Switch",
+                icon="mdi:pool",
+                option_on=on_cmd,
+                option_off=off_cmd,
             )
 
             s = DiffazurHydrocaptSwitchEntity(coordinator, m)
 
             selects.append(s)
-
 
     timers = coordinator.get_timers()
     for timer_name, timer_pre in timers.items():
@@ -52,13 +55,14 @@ async def async_setup_entry(hass, entry, async_add_devices):
         for hour_idx in range(24):
 
             if hour_idx < 10:
-                idx_str = "0"+ str(hour_idx)
+                idx_str = "0" + str(hour_idx)
             else:
                 idx_str = str(hour_idx)
 
-
             m = DiffazurHydrocapSwitchHourTimerEntityDescription(
-                key=timer_name, name=f"{PREFIX} {timer_pre} {idx_str}h", hour_idx=hour_idx
+                key=timer_name,
+                name=f"{PREFIX} {timer_pre} {idx_str}h",
+                hour_idx=hour_idx,
             )
 
             s = DiffazurHydrocapSwitchHourTimerEntity(coordinator, m)
@@ -66,7 +70,6 @@ async def async_setup_entry(hass, entry, async_add_devices):
             selects.append(s)
 
     async_add_devices(selects)
-
 
 
 class DiffazurHydrocaptSwitchEntity(DiffazurHydrocaptEntity, SwitchEntity):
@@ -95,7 +98,6 @@ class DiffazurHydrocaptSwitchEntity(DiffazurHydrocaptEntity, SwitchEntity):
         await self.coordinator.async_set_updated_data(
             data
         )  # should be enough as set_and_fetch_command_state send back data
-
 
     @property
     def is_on(self):
@@ -133,7 +135,6 @@ class DiffazurHydrocapSwitchHourTimerEntity(DiffazurHydrocaptEntity, SwitchEntit
         await self.coordinator.async_set_updated_data(
             data
         )  # should be enough as set_and_fetch_command_state send back data
-
 
     @property
     def is_on(self):

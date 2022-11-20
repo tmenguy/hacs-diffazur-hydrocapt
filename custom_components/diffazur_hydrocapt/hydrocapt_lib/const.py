@@ -44,7 +44,7 @@ for k_ext, v_trad in HYDROCAPT_EXTERNAL_TO_INTERNAL_CONSIGNS.items():
 HYDROCAPT_TIMERS = {}
 for k_ext, v_trad in HYDROCAPT_EXTERNAL_TO_INTERNAL_CONSIGNS.items():
     if v_trad[1] == HYDROCAPT_TIMER:
-        HYDROCAPT_TIMERS[v_trad[0]] = v_trad[2]
+        HYDROCAPT_TIMERS[k_ext] = v_trad[2]
 
 
 HYDROCAPT_LOGIN_URL = "https://www.hydrocapt.fr/pool/poolLogin/login"
