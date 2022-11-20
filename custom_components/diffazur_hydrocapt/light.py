@@ -20,7 +20,6 @@ _LOGGER = logging.getLogger(__name__)
 @dataclass
 class DiffazurHydrocaptLightEntityDescription(LightEntityDescription):
     """A class that describes Hidrocaptlight entity entities."""
-
     on_options: list[str] = None
     off_options: list[str] = None
 
@@ -80,7 +79,7 @@ class DiffazurHydrocaptLightEntity(DiffazurHydrocaptEntity, LightEntity):
             self.entity_description.on_options[0],
         )
         # await self.coordinator.async_refresh()
-        self.coordinator.async_set_updated_data(
+        await self.coordinator.async_set_updated_data(
             data
         )  # should be enough as set_and_fetch_command_state send back data
 

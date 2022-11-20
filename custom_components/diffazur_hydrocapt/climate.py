@@ -107,7 +107,7 @@ class DiffazurHydrocaptClimateEntity(DiffazurHydrocaptEntity, ClimateEntity):
                 temp,
             )
             # await self.coordinator.async_refresh()
-            self.coordinator.async_set_updated_data(data)
+            await self.coordinator.async_set_updated_data(data)
 
             await self.async_update_ha_state()
 
@@ -124,7 +124,7 @@ class DiffazurHydrocaptClimateEntity(DiffazurHydrocaptEntity, ClimateEntity):
             data = await self.hass.async_add_executor_job(
                 self.coordinator.set_command_state,
                 self.entity_description.heating_command,
-                option,
+                option
             )
             # await self.coordinator.async_refresh()
             await self.coordinator.async_set_updated_data(
