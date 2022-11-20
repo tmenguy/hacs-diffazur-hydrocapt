@@ -44,6 +44,12 @@ from .const import HYDROCAPT_SAVE_POOL_CONSIGN_URL
 
 from .const import HYDROCAPT_HEATING_REGULATION_COMMAND, HYDROCAPT_HEATING_REGULATION_WATER_TEMPERATURE, HYDROCAPT_HEATING_REGULATION_TEMPARATURE_CONSIGN
 from .const import HYDROCAPT_EXTERNAL_TO_INTERNAL_CONSIGNS, HYDROCAPT_INTERNAL_TO_EXTERNAL_CONSIGNS, HYDROCAPT_TIMER, HYDROCAPT_TIMERS
+
+
+NUM_CHECK_COMMANDS = 10
+WAIT_BETWEEN_CHACK_S = 3
+
+
 class HydrocaptClient(object):
     """Proxy to the Hydrocapt REST API."""
 
@@ -352,12 +358,11 @@ class HydrocaptClient(object):
 
 
         # wait for change to happen
-        saved_states = {}
-        for i in range(5):
+        for i in range(NUM_CHECK_COMMANDS):
             cur_states = self.get_commands_current_states()
             if cur_states.get(command) == state:
                 return cur_states
-            time.sleep(2)
+            time.sleep(WAIT_BETWEEN_CHACK_S)
 
         raise HydrocaptError
 
@@ -499,12 +504,11 @@ class HydrocaptClient(object):
 
 
         # wait for change to happen
-        saved_states = {}
-        for i in range(5):
+        for i in range(NUM_CHECK_COMMANDS):
             cur_consigns = self.get_current_consigns()
             if cur_consigns.get(consign) == value:
                 return cur_consigns
-            time.sleep(2)
+            time.sleep(WAIT_BETWEEN_CHACK_S)
 
         raise HydrocaptError
 
