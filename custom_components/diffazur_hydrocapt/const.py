@@ -2,7 +2,7 @@
 # Base component constants
 
 PREFIX = "POOL"
-NAME = "Diffazur Hydrocapt"
+NAME = "Diffazur Hydrocap Pool"
 DOMAIN = "diffazur_hydrocapt"
 DOMAIN_DATA = f"{DOMAIN}_data"
 VERSION = "0.0.0"

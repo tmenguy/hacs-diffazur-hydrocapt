@@ -15,7 +15,6 @@ from .const import DOMAIN, NAME, VERSION, ATTRIBUTION, MANUFACTURER
 class DiffazurHydrocaptEntity(CoordinatorEntity):
 
     _attr_attribution = ATTRIBUTION
-
     def __init__(self, coordinator: DataUpdateCoordinator, description: EntityDescription):
         super().__init__(coordinator)
         self.entity_description  = description
@@ -23,9 +22,10 @@ class DiffazurHydrocaptEntity(CoordinatorEntity):
 
     @property
     def device_info(self):
+        pool_id = self.coordinator.get_pool_id()
         return {
-            "identifiers": {(DOMAIN, self.unique_id)},
-            "name": f"{NAME} {self.entity_description.key}",
+            "identifiers": {(DOMAIN, pool_id)},
+            "name": f"{NAME} (pool id: {pool_id})",
             "model": VERSION,
             "manufacturer": MANUFACTURER,
         }
@@ -33,7 +33,25 @@ class DiffazurHydrocaptEntity(CoordinatorEntity):
     @property
     def unique_id(self) -> str:
         """Return unique id for car entity."""
-        return slugify(f"{self.entity_description.name} {type(self).__name__}")
+        pool_id = self.coordinator.get_pool_id()
+        return slugify(f"{self.entity_description.name} {type(self).__name__} {pool_id}")
+
+
+    @property
+    def unique_id(self) -> str:
+        """Return unique id for car entity."""
+        return slugify(f"{self._car.vin} {self.type}")
+
+    @property
+    def device_info(self) -> DeviceInfo:
+        """Return device info."""
+        return DeviceInfo(
+            identifiers={(DOMAIN, self._car.id)},
+            name=self.vehicle_name,
+            manufacturer="Tesla",
+            model=self._car.car_type,
+            sw_version=self._car.car_version,
+        )
 
     # @property
     # def extra_state_attributes(self):

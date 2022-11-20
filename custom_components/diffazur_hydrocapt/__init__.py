@@ -85,6 +85,10 @@ class DiffazurHydrocaptDataUpdateCoordinator(DataUpdateCoordinator):
         self.platforms = []
         super().__init__(hass, _LOGGER, name=DOMAIN, update_interval=SCAN_INTERVAL)
 
+
+    def get_pool_id(self):
+        return self.api.get_pool_id()
+
     def set_command_state(self, command, state):
         self.api.set_command_state(command, state)
         data = self.api.get_packaged_data()
