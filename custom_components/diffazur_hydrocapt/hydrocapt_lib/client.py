@@ -53,7 +53,7 @@ WAIT_BETWEEN_CHACK_S = 3
 class HydrocaptClient(object):
     """Proxy to the Hydrocapt REST API."""
 
-    def __init__(self, username: str, password: str, pool_internal_id: Optional[int] = -1) -> None:
+    def __init__(self, username: str, password: str, pool_id: Optional[int] = -1, pool_internal_id: Optional[int] = -1) -> None:
         """Initialize the API and authenticate so we can make requests.
 
         Args:
@@ -63,6 +63,11 @@ class HydrocaptClient(object):
         self.username = username
         self.password = password
         self.session: Optional[HydrocaptClientSession] = None
+
+        if pool_internal_id < 0:
+            if pool_id >= 10000:
+                pool_internal_id = pool_id - 10000 #yes strange it seems external id is internal id + 10000
+
         self.pool_internal_id = pool_internal_id
         self._saved_states = {}
         self._saved_consigns = {}
@@ -84,8 +89,19 @@ class HydrocaptClient(object):
         return self._get_pool_internal_id()
 
     def is_connection_ok(self):
+        session = self._get_session()
+        if session is None:
+            return False
+
+        if session.is_connection_ok() is False:
+            return False
+
         pool_id = self._get_pool_internal_id()
-        return  pool_id >= 0
+        if  pool_id < 0:
+            return False
+
+        return True
+
 
     def _check_xml_not_authenticated(self, rTree):
         r = rTree.xpath("/root/status")

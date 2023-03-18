@@ -25,7 +25,10 @@ from .const import (
     PLATFORMS,
     DOMAIN,
     STARTUP_MESSAGE,
+    CONF_POOL_ID,
+    CONF_INTERNAL_POOL_ID
 )
+
 
 SCAN_INTERVAL = timedelta(minutes=60)
 
@@ -45,8 +48,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 
     username = entry.data.get(CONF_EMAIL)
     password = entry.data.get(CONF_PASSWORD)
+    pool_id = entry.data.get(CONF_POOL_ID, -1)
+    pool_internal_id  = entry.data.get(CONF_INTERNAL_POOL_ID, -1)
 
-    client = HydrocaptClient(username=username, password=password)
+    client = HydrocaptClient(username=username, password=password, pool_id=pool_id, pool_internal_id=pool_internal_id)
 
     coordinator = DiffazurHydrocaptDataUpdateCoordinator(hass, client)
 

@@ -27,7 +27,8 @@ CLIMATE = "climate"
 
 PLATFORMS = [BINARY_SENSOR, SENSOR, LIGHT, SELECT, SWITCH, CLIMATE]
 
-
+CONF_POOL_ID = "pool id"
+CONF_INTERNAL_POOL_ID = "internal pool id"
 
 # Defaults
 DEFAULT_NAME = DOMAIN

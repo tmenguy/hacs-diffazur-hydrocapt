@@ -87,6 +87,14 @@ class HydrocaptClientSession(object):
 
         return self._pool_internal_id
 
+    def is_connection_ok(self):
+        p_id = self.get_internal_pool_id()
+
+        if p_id >= 0 and self._session is not None:
+            return True
+
+        return False
+
     def post(self, url, data, headers=None):
 
         if self._session is None:
