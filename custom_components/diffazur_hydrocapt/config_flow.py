@@ -1,22 +1,16 @@
 """Adds config flow for Diffazur hydrocapt."""
 from homeassistant import config_entries
 from homeassistant.core import callback
-from homeassistant.helpers.aiohttp_client import async_create_clientsession
 import voluptuous as vol
 
 from homeassistant.const import CONF_EMAIL, CONF_PASSWORD
 
 try:
     from diffazur_hydrocapt.hydrocapt_lib.client import HydrocaptClient
-except:
+except Exception:
     from .hydrocapt_lib.client import HydrocaptClient
 
-from .const import (
-    DOMAIN,
-    PLATFORMS,
-    CONF_POOL_ID,
-    CONF_INTERNAL_POOL_ID
-)
+from .const import DOMAIN, PLATFORMS, CONF_POOL_ID, CONF_INTERNAL_POOL_ID
 
 
 class DiffazurHydrocaptFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
@@ -39,7 +33,10 @@ class DiffazurHydrocaptFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
 
         if user_input is not None:
             valid = await self._test_credentials(
-                user_input[CONF_EMAIL], user_input[CONF_PASSWORD], user_input[CONF_POOL_ID], user_input[CONF_INTERNAL_POOL_ID]
+                user_input[CONF_EMAIL],
+                user_input[CONF_PASSWORD],
+                user_input[CONF_POOL_ID],
+                user_input[CONF_INTERNAL_POOL_ID],
             )
             if valid:
                 return self.async_create_entry(
@@ -73,7 +70,9 @@ class DiffazurHydrocaptFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                     vol.Required(CONF_EMAIL, default=user_input[CONF_EMAIL]): str,
                     vol.Required(CONF_PASSWORD, default=user_input[CONF_PASSWORD]): str,
                     vol.Optional(CONF_POOL_ID, default=user_input[CONF_POOL_ID]): int,
-                    vol.Optional(CONF_INTERNAL_POOL_ID, default=user_input[CONF_INTERNAL_POOL_ID]): int,
+                    vol.Optional(
+                        CONF_INTERNAL_POOL_ID, default=user_input[CONF_INTERNAL_POOL_ID]
+                    ): int,
                 }
             ),
             errors=self._errors,
@@ -87,7 +86,7 @@ class DiffazurHydrocaptFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                 client.is_connection_ok
             )
             return conn_status
-        except:
+        except Exception:
             pass
 
         return False

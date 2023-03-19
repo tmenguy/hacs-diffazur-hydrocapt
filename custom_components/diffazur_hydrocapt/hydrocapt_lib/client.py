@@ -112,12 +112,12 @@ class HydrocaptClient(object):
         to_probe = cmd_result.text
         try:
             rTree = etree.fromstring(cmd_result.text)
-            r = rTree.xpath(f"/root/status")
+            r = rTree.xpath("/root/status")
             if r is not None and len(r) > 0:
                 to_probe = r[0].text
             else:
                 r = None
-        except:
+        except Exception:
             to_probe = cmd_result.text
             rTree = None
             r  =None
@@ -259,13 +259,13 @@ class HydrocaptClient(object):
                 if c.tag == "max" or c.tag == "min":
                     try:
                         alarm[c.tag] = float(c.text)
-                    except:
+                    except Exception:
                         do_stop = True
                         break
                 elif c.tag == "enable":
                     try:
                         alarm[c.tag] = bool(c.text)
-                    except:
+                    except Exception:
                         do_stop = True
                         break
 
@@ -296,7 +296,7 @@ class HydrocaptClient(object):
 
         try:
             read_data = self._get_pool_measure_latest()
-        except:
+        except Exception:
             read_data = {}
 
         if read_data is None or len(read_data) == 0:
@@ -360,7 +360,7 @@ class HydrocaptClient(object):
                 r = tree_cmd_state.xpath(f"/root/datas/{state}")
                 state_val = int(r[0].text)
                 internal_states[state] = state_val
-            except:
+            except Exception:
                 pass
 
         return self._get_hydrocapt_external_command_states_from_internal(internal_states)
@@ -369,7 +369,7 @@ class HydrocaptClient(object):
 
         try:
             states = self._get_commands_current_states()
-        except:
+        except Exception:
             states = {}
 
         if len(states) == 0:
@@ -432,7 +432,7 @@ class HydrocaptClient(object):
             if saved_states is None:
                 #No change
                 return prev_state
-        except Exception as e:
+        except Exception:
             saved_states = {}
 
         if len(saved_states) == 0:
@@ -573,7 +573,7 @@ class HydrocaptClient(object):
             if saved_states is None:
                 #No change
                 return prev_value
-        except:
+        except Exception:
             saved_states = {}
 
         if len(saved_states) == 0:
@@ -635,7 +635,7 @@ class HydrocaptClient(object):
                     r = tree_consign_state.xpath(path)
                     state_val = r[0].text
                     internal_consigns[state] = state_val
-                except:
+                except Exception:
                     pass
 
 
@@ -645,7 +645,7 @@ class HydrocaptClient(object):
 
         try:
             states = self._get_current_consigns()
-        except:
+        except Exception:
             states = {}
 
         if len(states) == 0:
