@@ -103,15 +103,55 @@ class HydrocaptClient(object):
         return True
 
 
-    def _check_xml_not_authenticated(self, rTree):
-        r = rTree.xpath("/root/status")
-        if r is not None and len(r) > 0:
-            if "You are not authenticated" in r[0].text:
-                raise HydrocaptError
-            if "OK" in r[0].text:
-                pass
+    def _inner_check_response(self, cmd_result):
+
+        cmd_result.raise_for_status()
+        rTree = None
+        r = None
+
+        to_probe = cmd_result.text
+        try:
+            rTree = etree.fromstring(cmd_result.text)
+            r = rTree.xpath(f"/root/status")
+            if r is not None and len(r) > 0:
+                to_probe = r[0].text
             else:
-                raise HydrocaptError
+                r = None
+        except:
+            to_probe = cmd_result.text
+            rTree = None
+            r  =None
+
+        if "You are not authenticated" in to_probe:
+            raise HydrocaptError
+
+        return r, rTree, to_probe
+
+
+
+
+    def _check_command_consign_result_save(self, result_save):
+
+        _, _, to_probe = self._inner_check_response(result_save)
+
+        if "Pas de modification" in to_probe:
+            #ok no modification
+            return None
+
+        return True
+
+    def _check_xml_not_authenticated(self, cmd_result):
+
+        r, rTree, to_probe = self._inner_check_response(cmd_result)
+
+        if r is not None:
+            if "OK" in to_probe:
+                return rTree
+
+            raise HydrocaptError
+
+        return rTree
+
 
     def _get_pool_measure_latest(self) -> Dict[str, Any]:
         """Retrieve most recents measures.
@@ -205,11 +245,10 @@ class HydrocaptClient(object):
             headers=dict(referer=f"{HYDROCAPT_AJAX_POOL_HISTORIC}?serial={pool_id}")
         )
 
-        result_get_alarms.raise_for_status()
+        tree_alarms = self._check_xml_not_authenticated(result_get_alarms)
 
-        tree_alarms = etree.fromstring(result_get_alarms.text)
-
-        self._check_xml_not_authenticated(tree_alarms)
+        if tree_alarms is None:
+            raise HydrocaptError
 
 
         alarms = {}
@@ -309,9 +348,10 @@ class HydrocaptClient(object):
 
         commands_state = self._get_session().get(get_pool_command_url)
 
-        tree_cmd_state = etree.fromstring(commands_state.text)
+        tree_cmd_state = self._check_xml_not_authenticated(commands_state)
 
-        self._check_xml_not_authenticated(tree_cmd_state)
+        if tree_cmd_state is None:
+            raise HydrocaptError
 
         internal_states = {}
 
@@ -344,6 +384,8 @@ class HydrocaptClient(object):
         return states
 
 
+
+
     def _set_command_state(self, command, state):
 
         pool_id = self._get_pool_internal_id()
@@ -361,16 +403,10 @@ class HydrocaptClient(object):
             headers=dict(referer=HYDROCAPT_POOL_LIST_OWN_URL)
         )
 
-        result_save.raise_for_status()
+        rs = self._check_command_consign_result_save(result_save)
 
-        tree_save_state = etree.fromstring(result_save.text)
-        r = tree_save_state.xpath(f"/root/status")
-        if r is not None:
-            if "Pas de modification" in r[0].text:
-                #ok no modification
-                return None
-            elif "You are not authenticated" in r[0].text:
-                raise HydrocaptError
+        if rs is None:
+            return None
 
 
         # wait for change to happen
@@ -396,7 +432,7 @@ class HydrocaptClient(object):
             if saved_states is None:
                 #No change
                 return prev_state
-        except:
+        except Exception as e:
             saved_states = {}
 
         if len(saved_states) == 0:
@@ -507,17 +543,12 @@ class HydrocaptClient(object):
             headers=dict(referer=HYDROCAPT_POOL_LIST_OWN_URL)
         )
 
+        rs = self._check_command_consign_result_save(result_save)
+
+        if rs is None:
+            return None
+
         result_save.raise_for_status()
-
-        tree_save_state = etree.fromstring(result_save.text)
-        r = tree_save_state.xpath(f"/root/status")
-        if r is not None:
-            if "Pas de modification" in r[0].text:
-                #ok no modification
-                return None
-            elif "You are not authenticated" in r[0].text:
-                raise HydrocaptError
-
 
         # wait for change to happen
         for i in range(NUM_CHECK_COMMANDS):
@@ -591,14 +622,12 @@ class HydrocaptClient(object):
 
         commands_state = self._get_session().get(get_pool_command_url)
 
+        tree_consign_state = self._check_xml_not_authenticated(commands_state)
 
-        tree_consign_state = etree.fromstring(commands_state.text)
-
-        self._check_xml_not_authenticated(tree_consign_state)
+        if tree_consign_state is None:
+            raise HydrocaptError
 
         internal_consigns = {}
-
-
 
         for state in HYDROCAPT_INTERNAL_TO_EXTERNAL_CONSIGNS:
             for path in [f"/root/datas/select/{state}", f"/root/datas/timer/{state}"]:
