@@ -135,4 +135,4 @@ class DiffazurHydrocaptClimateEntity(DiffazurHydrocaptEntity, ClimateEntity):
             # await self.coordinator.async_refresh()
             self.coordinator.async_set_updated_data(
                 data
-            )  # should be enough as set_and_fetch_command_state send back data
+            )

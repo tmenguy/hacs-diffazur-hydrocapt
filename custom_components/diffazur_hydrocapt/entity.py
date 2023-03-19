@@ -18,7 +18,6 @@ class DiffazurHydrocaptEntity(CoordinatorEntity):
     def __init__(self, coordinator: DataUpdateCoordinator, description: EntityDescription):
         super().__init__(coordinator)
         self.entity_description  = description
-        self._prev_off_state = None
 
     @property
     def device_info(self):

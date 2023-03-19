@@ -65,16 +65,12 @@ class DiffazurHydrocaptLightEntity(DiffazurHydrocaptEntity, LightEntity):
         """Return True if entity is on."""
         cur_op = self.coordinator.data[self.entity_description.key]
         ret = cur_op in self.entity_description.on_options
-
-        if ret is False:
-            self._prev_off_state = cur_op
-
         return ret
 
     async def async_turn_on(self, **kwargs) -> None:
         """Turn the entity on."""
-        self._prev_off_state, data = await self.hass.async_add_executor_job(
-            self.coordinator.set_and_fetch_command_state,
+        data = await self.hass.async_add_executor_job(
+            self.coordinator.set_command_state,
             self.entity_description.key,
             self.entity_description.on_options[0],
         )
@@ -86,16 +82,10 @@ class DiffazurHydrocaptLightEntity(DiffazurHydrocaptEntity, LightEntity):
     async def async_turn_off(self, **kwargs) -> None:
         """Turn the entity off."""
 
-        if (
-            self._prev_off_state is None
-            or self._prev_off_state not in self.entity_description.off_options
-        ):
-            self._prev_off_state = self.entity_description.off_options[0]
-
         data = await self.hass.async_add_executor_job(
             self.coordinator.set_command_state,
             self.entity_description.key,
-            self._prev_off_state,
+            self.entity_description.off_options[0],
         )
         # await self.coordinator.async_refresh()
         self.coordinator.async_set_updated_data(

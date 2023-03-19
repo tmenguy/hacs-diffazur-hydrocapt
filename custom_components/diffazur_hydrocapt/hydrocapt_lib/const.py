@@ -5,7 +5,7 @@ HYDROCAPT_HEATING_REGULATION_COMMAND = "Heating Regulation"
 HYDROCAPT_HEATING_REGULATION_WATER_TEMPERATURE = "water_temperature"
 HYDROCAPT_HEATING_REGULATION_TEMPARATURE_CONSIGN = "setpoint_heating"
 
-#by construction : first command is OFF
+#by construction : first command is OFF, and MUST BE OFF
 HYDROCAPT_EXTERNAL_TO_INTERNAL_COMMANDS = {
 "Filtration" : ("filtration", {"Filtration OFF": 2, "Filtration ON":1, "Filtration TIMER":3, "Filtration AUTO":0, "Filtration CHOC":4}, "Filtration AUTO"),
 "Light": ("lighting", {"Pool Light OFF": 2, "Pool Light TIMER": 1, "Pool Light ON":0}, "Pool Light OFF"),
