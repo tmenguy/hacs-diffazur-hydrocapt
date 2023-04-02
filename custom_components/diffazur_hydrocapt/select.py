@@ -24,7 +24,7 @@ async def async_setup_entry(hass, entry, async_add_devices):
     ext_cmds = coordinator.get_commands_and_options()
     for k_ext, cmd_vals in ext_cmds.items():
 
-        #do not expose hesting command here as we do have now a climate entity for that
+        #do not expose heating command here as we do have now a climate entity for that
         if k_ext == coordinator.get_heating_regulation_command():
             continue
 
@@ -54,9 +54,6 @@ class DiffazurHydrocaptSelectEntity(DiffazurHydrocaptEntity, SelectEntity):
             return None
         return self.coordinator.data.get(self.entity_description.key, None)
 
-    # def select_option(self, option: str) -> None:
-    #    """Change the selected option. by construction the set_and_fetch_command_state will set the new data in the coordinator too"""
-    #    self.coordinator.set_and_fetch_command_state(self.entity_description.key, option)
 
     async def async_select_option(self, option: str) -> None:
         """Change the selected option."""
@@ -68,4 +65,4 @@ class DiffazurHydrocaptSelectEntity(DiffazurHydrocaptEntity, SelectEntity):
         # await self.coordinator.async_refresh()
         self.coordinator.async_set_updated_data(
             data
-        )  # should be enough as set_and_fetch_command_state send back data
+        )

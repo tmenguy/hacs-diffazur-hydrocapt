@@ -230,6 +230,10 @@ class HydrocaptClient(object):
                 dates = r.get("values", [today]*25)
 
 
+        for k, out_data in vals.items():
+            if cur_data.get(out_data, None) is None:
+                cur_data[out_data] = None
+
         #ok num_hours is the index of the measure in the hour based values array
         measure_date = dates[num_hours]
         measure_date = parse(measure_date) + timedelta(hours=num_hours)

@@ -81,7 +81,7 @@ class DiffazurHydrocaptSwitchEntity(DiffazurHydrocaptEntity, SwitchEntity):
         # await self.coordinator.async_refresh()
         self.coordinator.async_set_updated_data(
             data
-        )  # should be enough as set_and_fetch_command_state send back data
+        )
 
     async def async_turn_off(self, **kwargs):  # pylint: disable=unused-argument
         """Turn off the switch."""
@@ -93,7 +93,7 @@ class DiffazurHydrocaptSwitchEntity(DiffazurHydrocaptEntity, SwitchEntity):
         # await self.coordinator.async_refresh()
         self.coordinator.async_set_updated_data(
             data
-        )  # should be enough as set_and_fetch_command_state send back data
+        )
 
     @property
     def is_on(self):
@@ -117,7 +117,7 @@ class DiffazurHydrocapSwitchHourTimerEntity(DiffazurHydrocaptEntity, SwitchEntit
         # await self.coordinator.async_refresh()
         self.coordinator.async_set_updated_data(
             data
-        )  # should be enough as set_and_fetch_command_state send back data
+        )
 
     async def async_turn_off(self, **kwargs):  # pylint: disable=unused-argument
         """Turn off the switch."""
@@ -130,7 +130,7 @@ class DiffazurHydrocapSwitchHourTimerEntity(DiffazurHydrocaptEntity, SwitchEntit
         # await self.coordinator.async_refresh()
         self.coordinator.async_set_updated_data(
             data
-        )  # should be enough as set_and_fetch_command_state send back data
+        )
 
     @property
     def is_on(self):

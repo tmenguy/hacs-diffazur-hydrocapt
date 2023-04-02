@@ -6,7 +6,9 @@
         "description": "If you need help with the configuration have a look here: https://github.com/tmenguy/hacs-diffazur-hydrocapt",
         "data": {
           "username": "Username",
-          "password": "Password"
+          "password": "Password",
+          "pool id": "Pool id as seen in hydrocapt UI",
+          "internal pool id": "Internal technical hydrocapt Pool ID, will override Pool id above"
         }
       }
     },

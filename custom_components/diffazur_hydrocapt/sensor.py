@@ -67,6 +67,8 @@ class DiffazurHydrocaptSensor(DiffazurHydrocaptEntity, SensorEntity):
     @property
     def native_value(self):
         """State of the sensor."""
-        return self.coordinator.data[self.entity_description.key]
+        if self.coordinator.data is None:
+            return None
+        return self.coordinator.data.get(self.entity_description.key, None)
 
 
