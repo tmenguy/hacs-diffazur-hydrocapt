@@ -10,15 +10,17 @@ from homeassistant.components.sensor import (
     SensorStateClass,
 )
 
-from homeassistant.const import ELECTRIC_POTENTIAL_MILLIVOLT, TEMP_CELSIUS
-
+from homeassistant.const import (
+    UnitOfElectricPotential,
+    UnitOfTemperature,
+)
 
 
 SENSOR_TYPES: tuple[SensorEntityDescription, ...] = (
     SensorEntityDescription(
         key="conductivity",
         name=f"{PREFIX} conductivity",
-        native_unit_of_measurement=ELECTRIC_POTENTIAL_MILLIVOLT,
+        native_unit_of_measurement=UnitOfElectricPotential.MILLIVOLT,
         icon="mdi:pool",
         state_class=SensorStateClass.MEASUREMENT,
     ),
@@ -33,20 +35,20 @@ SENSOR_TYPES: tuple[SensorEntityDescription, ...] = (
         name=f"{PREFIX} Water Temp",
         icon="mdi:coolant-temperature",
         device_class=SensorDeviceClass.TEMPERATURE,
-        native_unit_of_measurement=TEMP_CELSIUS,
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         state_class=SensorStateClass.MEASUREMENT,
     ),
     SensorEntityDescription(
         key="technical_room_temperature",
         name=f"{PREFIX} Technical Room Temp",
         device_class=SensorDeviceClass.TEMPERATURE,
-        native_unit_of_measurement=TEMP_CELSIUS,
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         state_class=SensorStateClass.MEASUREMENT,
     ),
     SensorEntityDescription(
         key="redox",
         name=f"{PREFIX} Redox (ORP)",
-        native_unit_of_measurement=ELECTRIC_POTENTIAL_MILLIVOLT,
+        native_unit_of_measurement=UnitOfElectricPotential.MILLIVOLT,
         icon="mdi:pool",
         state_class=SensorStateClass.MEASUREMENT,
     ),

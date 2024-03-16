@@ -5,13 +5,16 @@ from .const import DOMAIN, PREFIX
 from .entity import DiffazurHydrocaptEntity
 from dataclasses import dataclass
 
-from homeassistant.const import ATTR_TEMPERATURE, TEMP_CELSIUS
+from homeassistant.const import ATTR_TEMPERATURE
 
 from homeassistant.components.climate.const import (
     HVACMode,
     ClimateEntityFeature,
 )
 
+from homeassistant.const import (
+    UnitOfTemperature,
+)
 
 @dataclass
 class DiffazurHydrocaptClimateEntityDescription(ClimateEntityDescription):
@@ -78,7 +81,7 @@ class DiffazurHydrocaptClimateEntity(DiffazurHydrocaptEntity, ClimateEntity):
         """Return unit of measurement.
         Tesla API always returns in Celsius.
         """
-        return TEMP_CELSIUS
+        return UnitOfTemperature.CELSIUS
 
     @property
     def current_temperature(self):
