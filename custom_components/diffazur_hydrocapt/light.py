@@ -7,6 +7,7 @@ import logging
 from homeassistant.components.light import (
     LightEntity,
     LightEntityDescription,
+    ColorMode,
 )
 
 from .const import DOMAIN, PREFIX
@@ -59,7 +60,8 @@ async def async_setup_entry(hass, entry, async_add_devices):
 
 class DiffazurHydrocaptLightEntity(DiffazurHydrocaptEntity, LightEntity):
     """diffazur_hydrocapt select class."""
-
+    _attr_color_mode = ColorMode.ONOFF
+    _attr_supported_color_modes = {ColorMode.ONOFF}
     @property
     def is_on(self) -> bool | None:
         """Return True if entity is on."""
