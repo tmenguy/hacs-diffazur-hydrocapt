@@ -9,5 +9,5 @@
   "codeowners": [
     "@tmenguy"
   ],
-  "requirements": []
+  "requirements": ["lxml"]
 }

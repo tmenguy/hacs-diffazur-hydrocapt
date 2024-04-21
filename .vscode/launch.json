@@ -7,8 +7,8 @@
       "name": "Python: Attach Local",
       "type": "python",
       "request": "attach",
-      "justMyCode": false,
       "port": 5678,
+      "justMyCode": false,
       "host": "localhost",
       "pathMappings": [
         {
