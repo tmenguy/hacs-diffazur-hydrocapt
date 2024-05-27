@@ -47,12 +47,20 @@ async def async_setup_entry(hass, entry, async_add_devices):
 
     async_add_devices(selects)
 
+SUPPORT_HVAC = [HVACMode.AUTO, HVACMode.OFF]
 
 class DiffazurHydrocaptClimateEntity(DiffazurHydrocaptEntity, ClimateEntity):
-    @property
-    def supported_features(self):
-        """Return the list of supported features."""
-        return ClimateEntityFeature.TARGET_TEMPERATURE
+
+    _attr_hvac_modes = SUPPORT_HVAC
+    _attr_supported_features = (
+        ClimateEntityFeature.TARGET_TEMPERATURE
+        | ClimateEntityFeature.TURN_OFF
+        | ClimateEntityFeature.TURN_ON
+    )
+    _attr_temperature_unit = UnitOfTemperature.CELSIUS
+    _attr_max_temp = 35
+    _attr_min_temp = 5
+    _enable_turn_on_off_backwards_compatibility = False
 
     @property
     def hvac_mode(self):
@@ -69,34 +77,13 @@ class DiffazurHydrocaptClimateEntity(DiffazurHydrocaptEntity, ClimateEntity):
 
         return HVACMode.OFF
 
-    @property
-    def hvac_modes(self):
-        """Return list of available hvac operation modes.
-        Need to be a subset of HVAC_MODES.
-        """
-        return [HVACMode.OFF, HVACMode.AUTO]
-
-    @property
-    def temperature_unit(self):
-        """Return unit of measurement.
-        Tesla API always returns in Celsius.
-        """
-        return UnitOfTemperature.CELSIUS
 
     @property
     def current_temperature(self):
         """Return current temperature."""
         return self.coordinator.data.get(self.entity_description.water_temperature, 0)
 
-    @property
-    def max_temp(self):
-        """Return max temperature."""
-        return 35  # DEFAULT_MAX_TEMP
 
-    @property
-    def min_temp(self):
-        """Return min temperature"""
-        return 3  # DEFAULT_MIN_TEMP
 
     @property
     def target_temperature(self):
