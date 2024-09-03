@@ -5,6 +5,7 @@ For more details about this integration, please refer to
 https://github.com/tmenguy/hacs-diffazur-hydrocapt
 """
 import asyncio
+import copy
 from datetime import timedelta
 import logging
 
@@ -141,6 +142,17 @@ class DiffazurHydrocaptDataUpdateCoordinator(DataUpdateCoordinator):
             data = await self.hass.async_add_executor_job(self.api.fetch_all_data)
         except Exception as exception:
             raise UpdateFailed() from exception
+
+        # data is the "new value" just remove None values from it to keep the old value
+        if self.data is not None:
+            new_data = copy.deepcopy(self.data)
+        else:
+            new_data = {}
+
+
+        for k, v in data.items():
+            if v is not None:
+                new_data[k] = v
 
         return data
 
